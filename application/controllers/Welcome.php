@@ -29,12 +29,13 @@ class Welcome extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->helper(array('url', 'form'));
+		$this->load->library(array('pagination', 'form_validation'));
 	}
 
 	private function validateForm()
 	{
        
-        $this->load->library('form_validation');
+   
 
 		$config = array(
 			array(
@@ -61,7 +62,7 @@ class Welcome extends CI_Controller {
 
 	private function paginate()
 	{
-		$this->load->library('pagination');
+		
 
 		$config['base_url'] = base_url('index.php/Welcome/index'); 
 
