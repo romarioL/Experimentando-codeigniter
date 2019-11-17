@@ -152,7 +152,8 @@ class Welcome extends CI_Controller {
 
 
 
-		if($this->validateForm() == true) {
+		if($this->validateForm() == true) 
+		{
               
               $this->Post->insert_post();
 
