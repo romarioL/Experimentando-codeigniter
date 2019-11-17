@@ -156,10 +156,12 @@ class Welcome extends CI_Controller {
               
               $this->Post->insert_post();
 
-		}else 
+		}
+
+
+		if($this->validateForm() == false)
 		{
 			$this->session->set_flashdata('error', validation_errors());
-
 		}
 		
 
