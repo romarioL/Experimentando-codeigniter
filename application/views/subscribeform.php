@@ -13,12 +13,24 @@
 
       <div class="card" style="padding: 10px;">
 
+
         <div class="container">
+         <?php 
+
+
+          if(isset($error) && $error)
+         { 
+            
+                echo $error;
+      
+         }
+          ?>
+
 
          <form method="post" action="/codeigniter/index.php/Welcome/criar">
 
           <div class=" input-field">
-          <?php echo form_error("titulo"); ?> 
+          
          	<label for="titulo">Título</label>
 
          	<input type="text" name="titulo"><br>
@@ -26,7 +38,7 @@
           </div>
 
           <div class="input-field">
-          <?php echo form_error("conteudo"); ?> 
+      
          	<label for="conteudo">Contéudo</label>
 
          	<textarea  name="conteudo" class="materialize-textarea"></textarea><br>
@@ -61,12 +73,21 @@
           </div>
 
           <?php endforeach; ?>
-          <?php echo $links; ?>
+
+           <ul class="pagination">
+
+            <?php echo $links; ?>
+
+           </ul>
+
         </div>
 
       </div>
 
  <script type="text/javascript" src="<?php  echo base_url();?>static/js/materialize.min.js"></script>
+
+  
+       
       
 </body>
 
