@@ -19,6 +19,11 @@ class Post extends CI_Model
 
         $data = ['titulo' => $titulo, 'conteudo' => $conteudo];
 
+        if(!empty($this->session->flashdata('error')))
+         {
+                  $data['error'] = $this->session->flashdata('error');
+         }
+
 		$this->db->insert('posts', $data);
 
 	}

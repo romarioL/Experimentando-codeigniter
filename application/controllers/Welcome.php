@@ -30,6 +30,7 @@ class Welcome extends CI_Controller {
 		parent::__construct();
 		$this->load->helper(array('url', 'form'));
 		$this->load->library(array('pagination', 'form_validation'));
+		$this->load->library('session');
 	}
 
 	private function validateForm()
@@ -40,21 +41,21 @@ class Welcome extends CI_Controller {
 		$config = array(
 			array(
 				'field' => 'titulo',
-				'label' => 'Titulo',
-				'rules'  => 'required',
-				'message' => 'Título é obrigatório'
+				'label' => 'Título',
+				'rules'  => 'required'
 		),
 			array(
 				'field' => 'conteudo',
-				'label'  => 'Conteudo',
-				'rules'  => 'required',
-				'message' => 'Conteúdo é obrigatório'
+				'label'  => 'Conteúdo',
+				'rules'  => 'required'
 			)
 		);
 
-		 $this->form_validation->set_rules($config);
+		 $this->form_validation->set_message('required', '{field}  é obrigatório');
 
-		 $this->form_validation->set_error_delimiters('<div>', '</div>');
+		 $this->form_validation->set_error_delimiters('<div class="panel red white-text" style="padding: 10px; margin: 5px;">', '</div>'); 
+
+		 $this->form_validation->set_rules($config);
 
 		 return $this->form_validation->run();
 
@@ -80,7 +81,35 @@ class Welcome extends CI_Controller {
 
 		$config['prev_link']   = 'Anterior';
 
-		$config['attributes'] = array('class' => 'waves-effect waves-light btn light-blue darken-4');
+		$config['attributes'] = array('class' => 'white-text');
+
+		$config['prev_tag_open'] = '<li class="purple darken-3 waves-effect btn">';
+
+		$config['prev_tag_close'] = '</li>';
+
+		$config['next_tag_open'] = '<li class=" purple darken-3 waves-effect btn">';
+
+		$config['next_tag_close'] = '</li>';
+
+		$config['full_tag_open'] = '<li class=" purple darken-3 waves-effect btn">';
+
+        $config['full_tag_close'] = '</li>';
+
+        $config['num_tag_open'] = '<li class="purple darken-3 waves-effect btn">';
+
+        $config['num_tag_close'] = '</li>';
+
+        $config['cur_tag_open'] = '<li class="purple lighten-1 waves-effect  active btn">';
+
+        $conf['cur_tag_close'] = '</li>';
+
+        $config['first_tag_open']   = '<li class="purple darken-3 white-text waves-effect btn">';
+
+        $config['first_tagl_close'] = '</li>';
+
+        $config['last_tag_open']    = '<li class="purple darken-3  waves-effect btn">';
+
+        $config['last_tag_close']  = "</li>";
 
 		$this->pagination->initialize($config);
 
@@ -102,6 +131,13 @@ class Welcome extends CI_Controller {
 
 	    $data['links'] = $this->paginate();
 
+	    if($this->session->flashdata('error'))
+	    {
+	    	$data['error'] = $this->session->flashdata('error');
+	    }
+
+
+
 	    $this->load->view('subscribeform', $data);
 
 		
@@ -120,10 +156,16 @@ class Welcome extends CI_Controller {
               
               $this->Post->insert_post();
 
+		}else 
+		{
+			$this->session->set_flashdata('error', validation_errors());
+
 		}
+		
 
+		
+		redirect('Welcome', 'refresh');
 
-		redirect('/Welcome', 'location');
 	}
 
 	public function ML()
